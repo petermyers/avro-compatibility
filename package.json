@@ -1,0 +1,47 @@
+{
+  "name": "avro-compatibility",
+  "version": "0.0.1",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "avro confluent compatibility avsc schema"
+  ],
+  "author": "petermyers",
+  "types": "dist/types/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "scripts": {
+    "build": "rm -rf dist && npm-run-all lint test && npm-run-all build:types build:cjs-min build:esm-min",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:cjs-min": "esbuild `find src \\( -name '*.ts' ! -name '*.spec.ts' ! -name '*.test.ts' ! -name 'client.ts' \\)` --minify --outdir=dist/cjs --platform=node --sourcemap --format=cjs --keep-names --target=esnext",
+    "build:esm-min": "esbuild `find src \\( -name '*.ts' ! -name '*.spec.ts' ! -name '*.test.ts' ! -name 'client.ts' \\)` --minify --outdir=dist/esm --platform=node --sourcemap --format=esm --keep-names --target=esnext",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint ./src ./test && prettier --check ./src ./test",
+    "format": "eslint --fix ./src ./test && prettier --write ./src ./test"
+  },
+  "exports": {
+    "import": "./dist/esm/index.js",
+    "require": "./dist/cjs/index.js"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.9.1",
+    "@types/jest": "^29.5.13",
+    "@typescript-eslint/eslint-plugin": "^8.4.0",
+    "@typescript-eslint/parser": "^8.4.0",
+    "esbuild": "^0.23.1",
+    "eslint": "^9.9.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-n": "^17.10.2",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-promise": "^7.1.0",
+    "jest": "^29.7.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.3.3",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {}
+}
