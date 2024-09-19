@@ -68,5 +68,5 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-Copyright © 2020 [Peter Myers](https://github.com/petermyers).<br />
+Copyright © 2024 [Peter Myers](https://github.com/petermyers).<br />
 This project is [MIT](https://github.com/petermyers/avro-compatibility/blob/main/LICENSE) licensed.
