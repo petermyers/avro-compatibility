@@ -1,6 +1,7 @@
 {
   "name": "avro-compatibility",
-  "version": "1.0.4",
+  "description": "A lightweight library for checking Avro schema validity and compatibility.",
+  "version": "1.0.5",
   "type": "module",
   "license": "MIT",
   "keywords": [
