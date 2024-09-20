@@ -1,6 +1,6 @@
 {
   "name": "avro-compatibility",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "license": "MIT",
   "keywords": [
@@ -20,6 +20,7 @@
     "format": "eslint --fix ./src ./test && prettier --write ./src ./test"
   },
   "exports": {
+    "types": "./dist/types/index.d.ts",
     "import": "./dist/esm/index.js",
     "require": "./dist/cjs/index.js"
   },
