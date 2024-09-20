@@ -15,7 +15,9 @@
   </a>
 </p>
 
-> A lightweight library for checking Avro schema compatibility.
+> A lightweight library for checking Avro schema compatibility.  
+> Built on the backs of giants.  
+> (Sits atop the amazing [mtth/avsc](https://github.com/mtth/avsc))
 
 ### 🏠 [Homepage](https://github.com/petermyers/avro-compatibility#readme)
 
@@ -31,6 +33,111 @@ or
 ```sh
 yarn add avro-compatibility
 ```
+
+## Usage
+### Validity Checks
+Validates a string (or object) is valid Avro.
+```js
+import { ValidityChecker } from 'avro-compatibility';
+
+// Invalid Avro
+const schemaInvalid = `{
+  "name" : "Employee",
+  "fields" : [
+    { "name" : "Name" , "type" : "string" },
+    { "name" : "Age" , "type" : "int" }
+  ]
+}`;
+
+ValidityChecker.for(schemaInvalid).check(); // Returns false;
+
+// Valid Avro
+const schemaValid = {
+  "type" : "record",
+  "namespace" : "ValidityCheckerExample",
+  "name" : "Employee",
+  "fields" : [
+    { "name" : "Name" , "type" : "string" },
+    { "name" : "Age" , "type" : "int" }
+  ]
+};
+
+ValidityChecker.for(schemaValid).check(); // Returns false;
+```
+
+#### Logging
+You can log out the errors found during validity checks by supplying `printValidityErrors`.
+
+```js
+ValidityChecker.for(schemaInvalid).check({ printValidityErrors: true });
+```
+
+### Compatibility Checks
+Validate whether or not a schema is compatible with previous versions of the schema given a particular compatibility mode. See the [Confluent Docs](https://docs.confluent.io/platform/current/schema-registry/fundamentals/schema-evolution.html#compatibility-types) on schema evolution for more information.
+
+```js
+import { CompatibilityChecker, CompatibilityMode } from 'avro-compatibility';
+
+const schema1 = {
+    type: 'record',
+    name: 'myrecord',
+    fields: [{ type: 'string', name: 'f1' }],
+};
+
+const schema2 = {
+    type: 'record',
+    name: 'myrecord',
+    fields: [
+        { type: 'string', name: 'f1' },
+        { type: 'string', name: 'f2', default: 'foo' },
+    ],
+};
+
+const schema3 = {
+    type: 'record',
+    name: 'myrecord',
+    fields: [
+        { type: 'string', name: 'f1' },
+        { type: 'string', name: 'f2' },
+    ],
+};
+
+// Removing a field.
+CompatibilityChecker
+  .check(schema2) // New schema
+  .against([schema1]) // Previous schemas
+  .withCompatibility(CompatibilityMode.BACKWARD)
+  .check(); // True
+
+// Add a field without a default.
+CompatibilityChecker
+  .check(schema3) // New schema
+  .against([schema1]) // Previous schemas
+  .withCompatibility(CompatibilityMode.BACKWARD)
+  .check(); // False
+```
+
+Supported compatibility modes.
+```js
+CompatibilityMode.BACKWARD
+CompatibilityMode.BACKWARD_TRANSITIVE
+CompatibilityMode.FORWARD
+CompatibilityMode.FORWARD_TRANSITIVE
+CompatibilityMode.FULL
+CompatibilityMode.FULL_TRANSITIVE
+CompatibilityMode.NONE
+```
+
+#### Logging
+You can log out the errors found during compatibility checks by supplying `printCompatibilityErrors`.
+
+```js
+CompatibilityChecker.check(schema3)
+  .against([schema1])
+  .withCompatibility(CompatibilityMode.BACKWARD)
+  .check({ printCompatibilityErrors: true })
+```
+
 ## Development
 ### Install
 ```sh
