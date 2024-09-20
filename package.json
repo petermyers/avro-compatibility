@@ -1,6 +1,6 @@
 {
   "name": "avro-compatibility",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "license": "MIT",
   "keywords": [
@@ -11,7 +11,7 @@
   "main": "dist/cjs/index.js",
   "scripts": {
     "build": "rm -rf dist && npm-run-all lint test && npm-run-all build:types build:cjs-min build:esm-min",
-    "build:types": "tsc --emitDeclarationOnly",
+    "build:types": "tsc -p tsconfig.build.json --emitDeclarationOnly",
     "build:cjs-min": "esbuild `find src \\( -name '*.ts' ! -name '*.spec.ts' ! -name '*.test.ts' ! -name 'client.ts' \\)` --minify --outdir=dist/cjs --platform=node --sourcemap --format=cjs --keep-names --target=esnext",
     "build:esm-min": "esbuild `find src \\( -name '*.ts' ! -name '*.spec.ts' ! -name '*.test.ts' ! -name 'client.ts' \\)` --minify --outdir=dist/esm --platform=node --sourcemap --format=esm --keep-names --target=esnext",
     "test": "jest",
@@ -23,6 +23,9 @@
     "import": "./dist/esm/index.js",
     "require": "./dist/cjs/index.js"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.9.1",
