@@ -1,11 +1,11 @@
 {
   "name": "avro-compatibility",
   "description": "A lightweight library for checking Avro schema validity and compatibility.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "type": "module",
   "license": "MIT",
   "keywords": [
-    "avro confluent compatibility avsc schema"
+    "avro", "confluent", "compatibility", "avsc", "schema"
   ],
   "author": "petermyers",
   "types": "dist/types/index.d.ts",
