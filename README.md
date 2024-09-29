@@ -74,6 +74,8 @@ ValidityChecker.for(schemaInvalid).check({ printValidityErrors: true });
 
 ### Compatibility Checks
 Validate whether or not a schema is compatible with previous versions of the schema given a particular compatibility mode. See the [Confluent Docs](https://docs.confluent.io/platform/current/schema-registry/fundamentals/schema-evolution.html#compatibility-types) on schema evolution for more information.
+  
+___Schema lists passed into the compatibility checkers should be in descending order. As in, `schemas[0]` should be the newest previous version.___
 
 ```js
 import { CompatibilityChecker, CompatibilityMode } from 'avro-compatibility';
